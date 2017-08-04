@@ -1,0 +1,26 @@
+{% extends "skeleton.html" %}
+
+{% block page_title %}Pet Detail{% endblock page_title %}
+{% block page_header %}Pet Detail{% endblock %}
+
+{% block layout %}
+<div class="col-xs-12 col-sm-6 col-md-6 mar-t-10">
+    <div class="well well-sm">
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <img src="http://placehold.it/380x500" alt="" class="img-rounded img-responsive" />
+            </div>
+            <div class="col-sm-6 col-md-8">
+                <span><b>Name:</b></span>
+                <span>{{ pet.name }}</span><br>
+                <span><b>Birthday:</b></span>
+                <span>{{ pet.birthday }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12">
+<a href="{% url 'pet_edit' pet.id %}" class="btn btn-info btn-md">Edit Pet</a>
+<a href="{% url 'pet_list' %}" class="btn btn-default btn-md">Back</a>
+</div>
+{% endblock %}

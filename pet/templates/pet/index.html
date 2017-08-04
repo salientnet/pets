@@ -1,0 +1,62 @@
+{% extends "skeleton.html" %}
+{% load static %}
+
+{% block login_button %}
+	{% if user.is_authenticated %}
+	<li class="dropdown user-profile">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<img src="{% static 'img/user-default.jpg' %}" width="30" height="30" />{{ user.username }}
+			<span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu">
+			<li><a href="#">Profile</a></li>
+			<li><a href="{% url 'account_logout' %}">Log out</a></li>
+		</ul>
+	</li>
+	{% else %}
+	<li><a href="{% url 'account_login' %}">Log in</a></li>
+	<li><a href="{% url 'account_signup' %}">Sign up</a></li>
+	{% endif %}
+{% endblock %}
+
+{% block page_header %}Pet List{% endblock %}
+
+{% block layout %}
+{% if user.is_authenticated %}
+<div class="mar-b-10 mar-t-10">
+	<a href="{% url 'pet_list' %}?cat=mine" class="btn btn-primary btn-sm">My Pets</a>
+	<a href="{% url 'pet_list' %}" class="btn btn-primary btn-sm">All Pets</a>
+	<a href="{% url 'pet_create' %}" class="pull-right btn btn-primary btn-sm">New Pet</a>
+</div>
+{% endif %}
+
+<table id="pet_table" class="display" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+		<th>Type</th>
+		<th>Name</th>
+		<th>Birthday</th>
+		<th>Owner</th>
+		<th>Actions</th>
+		</tr>
+    </thead>
+    <tbody>
+	    {% for pet in object_list %}
+	    <tr>
+	    	<td>{{ pet.type }}</td>
+	    	<td>{{ pet.name }}</td>
+	    	<td>{{ pet.birthday }}</td>
+	    	<td>{{ pet.owner.username }}</td>
+		    <td class="actions">
+		    	<a href="{% url 'pet_detail' pet.id %}" class="btn btn-primary btn-xs">View</a>
+		    	{% if user.id == pet.owner.id %}
+		    	<a href="{% url 'pet_edit' pet.id %}" class="btn btn-success btn-xs">Edit</a>
+		    	<a href="#" data-href="{% url 'pet_del' pet.id %}" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-xs">Delete</a>
+		    	{% endif %}
+        	</td>
+	    </tr>
+	    {% endfor %}
+	</tbody>
+</table>
+{% include "pet/modal/delete_confirm.html" %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "skeleton.html" %}
+
+{% block page_title %}Pet Edit{% endblock page_title %}
+{% block page_header %}Pet Edit{% endblock %}
+
+{% block layout %}
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-info btn-md" value="Edit" />
+    <a href="{% url 'pet_list' %}" class="btn btn-default btn-md">Back</a>
+</form>
+{% endblock %}
